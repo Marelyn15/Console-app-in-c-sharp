@@ -17,9 +17,9 @@ namespace ConsoleApp3
 
             cn.Open();
 
-            bool continuar = true; 
+            bool continuar = true;
 
-            while(continuar == true)
+            while (continuar == true)
             {
                 SqlCommand cmd = cn.CreateCommand();
 
@@ -36,40 +36,114 @@ namespace ConsoleApp3
 
                 reader.Close();
 
+                //Funciones de CRUD: 
+                Console.WriteLine("Por favor Indicar que desea hacer...");
+                Console.WriteLine("C. Crear nuevo usuario R. Buscar usuario U. Actualizar usuario D. Borrar usuario");
+                var respuesta = Console.ReadLine();
 
-                //Entrada de usuario
-                Console.WriteLine("Ingresa tu nombre");
-                var nombre = Console.ReadLine();
-
-                Console.WriteLine("Ingresa tu edad");
-                var edad = Console.ReadLine();
-
-                if (nombre != null && edad != null)
+                if (respuesta == "C" || respuesta == "c")
                 {
-                    var newEdad = int.Parse(edad);
+                    //Entrada de usuario
+                    Console.WriteLine("Ingresa tu nombre");
+                    var nombre = Console.ReadLine();
 
-                    //modo medio automatico
+                    Console.WriteLine("Ingresa tu edad");
+                    var edad = Console.ReadLine();
 
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "INSERT USER";
-                    cmd.Parameters.AddWithValue("@NAME_USER", nombre);
-                    cmd.Parameters.AddWithValue("@AGE", newEdad);
-                    Console.WriteLine("Datos ingresados");
+                    if (nombre != null && edad != null)
+                    {
+                        var newEdad = int.Parse(edad);
 
-                    //Muy importante 
-                    cmd.ExecuteNonQuery();
+                        //modo medio automatico
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "INSERT USER";
+                        cmd.Parameters.AddWithValue("@NAME_USER", nombre);
+                        cmd.Parameters.AddWithValue("@AGE", newEdad);
+                        Console.WriteLine("Datos ingresados");
+
+                        //Muy importante 
+                        cmd.ExecuteNonQuery();
+                    }
+
+        
                 }
 
-                
+                else if (respuesta == "R" || respuesta == "r")
+                {
+                    Console.WriteLine("Busqueda de usuarios");
+                    Console.WriteLine("Ingresa ID");
+                    var idUser = Console.ReadLine();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "VER";
+                    cmd.Parameters.AddWithValue("@ID", idUser);
+
+                    cmd.ExecuteNonQuery();
+
+
+                }
+                else if (respuesta == "U" || respuesta == "U")
+                {
+                    Console.WriteLine("Actualizar usuario");
+                    Console.WriteLine("Por favor, ingresa tu ID");
+                    var Id = Console.ReadLine();
+
+                    Console.WriteLine("Ahora ingresa tus nuevos datos");
+                    //Entrada de usuario
+                    Console.WriteLine("Ingresa tu nombre");
+                    var nombreUpdate = Console.ReadLine();
+
+                    Console.WriteLine("Ingresa tu edad");
+                    var edadUpdate = Console.ReadLine();
+
+                    if (nombreUpdate != null && edadUpdate != null)
+                    {
+                        var newEdad = int.Parse(edadUpdate);
+
+                        //modo medio automatico
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "EDITAR";
+                        cmd.Parameters.AddWithValue("@NAME_USER", nombreUpdate);
+                        cmd.Parameters.AddWithValue("@AGE", newEdad);
+                        cmd.Parameters.AddWithValue("@ID", Id);
+                        Console.WriteLine("Datos actualizados");
+
+                        //Muy importante 
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+                else if(respuesta == "D" || respuesta == "d")
+                {
+                    Console.WriteLine("Eliminar usuario");
+                    Console.WriteLine("Por favor, ingresa tu ID");
+                    var Id = Console.ReadLine();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "ELIMINAR";
+                    cmd.Parameters.AddWithValue("@ID", Id);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+                else
+                {
+                    Console.WriteLine("Mmm parece su respuesta no esta dentro de las opciones");
+                }
+
+
+
+
+
 
                 Console.WriteLine("Desea continuar? (Y/n) ");
                 var aswer = Console.ReadLine();
 
-                if(aswer == "Y")
+                if (aswer == "Y")
                 {
                     continuar = true;
                 }
-                else if(aswer == "n")
+                else if (aswer == "n")
                 {
                     continuar = false;
                 }
