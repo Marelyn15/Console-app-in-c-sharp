@@ -79,8 +79,6 @@ namespace ConsoleApp3
                     cmd.Parameters.AddWithValue("@ID", idUser);
 
                     cmd.ExecuteNonQuery();
-
-
                 }
                 else if (respuesta == "U" || respuesta == "U")
                 {
